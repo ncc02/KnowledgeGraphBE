@@ -5,6 +5,8 @@ from rank_bm25 import BM25Plus
 from .utils import bm25_tokenizer
 import google.generativeai as genai
 from underthesea import text_normalize, sent_tokenize, pos_tag
+import os 
+from django.conf import settings
 
 # Example Django model class
 class QAUsingNeo4j():
@@ -81,7 +83,7 @@ class QAUsingNeo4j():
     def query_to_objs_relations(self, query):
         input_data = self.split_by_first_verb(query)
         print("input_data", input_data)
-        output_relationships_path = "./app/Module_Final/output_relationships.json"
+        output_relationships_path = os.path.join(settings.BASE_DIR,'app','Module_Final','output_relationships.json')
         with open(output_relationships_path, 'r', encoding='utf-8') as f:
             relationship_pairs = json.load(f)
 
@@ -245,13 +247,22 @@ query = "{query}"
 
     def full_question_answer(self, query): 
         objs, relations =  self.query_to_objs_relations(query)
-
         if len(objs)==0:
             return "Rất tiết chúng tôi không tìm thấy thông tin đối tượng mà bạn đề cập trong câu hỏi."
         
         full_text = self.objs_relations_to_fulltext(objs, relations)
         answer = self.answer_query(query, full_text)
         return answer
+
+    # def full_question_answer(self, query): 
+    #     objs, relations =  self.query_to_objs_relations(query)
+
+    #     if len(objs)==0:
+    #         return "Rất tiết chúng tôi không tìm thấy thông tin đối tượng mà bạn đề cập trong câu hỏi."
+        
+    #     full_text = self.objs_relations_to_fulltext(objs, relations)
+    #     answer = self.answer_query(query, full_text)
+    #     return answer
     
     def query_to_cypher(self, query): 
         objs, relations = self.query_to_objs_relations(query)
