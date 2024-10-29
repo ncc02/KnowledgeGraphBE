@@ -1,4 +1,7 @@
+media/uploads/
 myenv/
 venv/
 env/
 __pycache__/
+app/Module_Final/CallAPILibrary/results/temp
+app/Module_Final/CallAPILibrary/logs/temp

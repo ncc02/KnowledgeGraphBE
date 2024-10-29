@@ -7,11 +7,11 @@ class FolderService:
     def __init__(self):
         self.repository = FolderRepository()
     
-    def addFolder(self,name):
-        return self.repository.add_folder(name)
+    def addFolder(self,name,id_parent):
+        return self.repository.add_folder(name,id_parent)
     
-    def updateNameFolder(self,idFolder,newNameFolder):
-        return self.repository.update_name_folder(idFolder,newNameFolder)
+    def updateFolder(self,idFolder,newNameFolder,id_parent):
+        return self.repository.update_folder(idFolder,newNameFolder,id_parent)
     
     def deleteFolder(self,idFolder):
         return self.repository.delete_folder(idFolder)
@@ -39,3 +39,7 @@ class FolderService:
     @staticmethod
     def getAllFolder() -> List[Folder]:
         return [folder for folder in FolderRepository.get_all_folder()]
+    
+    staticmethod
+    def getTree() -> List:
+        return FolderRepository.get_tree()
